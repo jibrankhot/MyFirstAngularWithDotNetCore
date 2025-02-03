@@ -1,3 +1,41 @@
-propImg {
-  height: 250px;
+.PropertyImage {
+  overflow: hidden;
+}
+.PropertyImage:hover img {
+  transform: scale(1.1, 1.1);
+  transition-duration: 500ms;
+  transition-timing-function: ease-out;
+  height: 14rem;
+  width: 20rem;
+  opacity: 0.8;
+  object-fit: cover;
+}
+
+.PropertyImage img {
+  transform: scale(1, 1);
+  transition-duration: 500ms;
+  transition-timing-function: ease-out;
+  height: 14rem;
+  width: 20rem;
+  object-fit: cover;
+}
+
+.card {
+  max-height: 430px;
+}
+
+.card-container {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.card-body h3 {
+  font-family: fantasy;
+  color: rgb(72, 72, 185);
+}
+
+.font-highlight {
+  font-style: italic;
+  color: red;
+  font-weight: normal !important;
 }

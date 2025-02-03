@@ -1,35 +1,34 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { HousingService } from 'src/app/Services/housing.service';
+import { PropertyInterface } from 'src/app/interfaces/property-interface';
 
 @Component({
   selector: 'app-property-list',
   templateUrl: './property-list.component.html',
   styleUrls: ['./property-list.component.css'],
 })
-export class PropertyListComponent {
-  Property: any = [
-    {
-      Id: 1,
-      Name: 'Birla House',
-      Type: 'House',
-      Price: 120000,
-    },
-    {
-      Id: 2,
-      Name: 'Erose Villa',
-      Type: 'Villa',
-      Price: 420000,
-    },
-    {
-      Id: 3,
-      Name: 'Macro Home',
-      Type: 'House',
-      Price: 220000,
-    },
-    {
-      Id: 4,
-      Name: 'Pearl White House',
-      Type: 'House',
-      Price: 360000,
-    },
-  ];
+export class PropertyListComponent implements OnInit {
+  Purchaseable = 1;
+  properties: Array<PropertyInterface>;
+  constructor(
+    private route: ActivatedRoute,
+    private housingService: HousingService
+  ) {}
+
+  ngOnInit() {
+    if (this.route.snapshot.url.toString()) {
+      this.Purchaseable = 2;
+    } // means we are on rent-property url or else we are on base url
+    this.housingService.getAllProperties(this.Purchaseable).subscribe(
+      (data: PropertyInterface[]) => {
+        console.log(data);
+        console.log(this.route.snapshot.url.toString());
+        this.properties = data;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
 }

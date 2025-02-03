@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "properRent": {
+    "RealEstateApk": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,14 +13,16 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/proper-rent",
+            "outputPath": "dist/real-estate-apk",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico", "src/assets"],
+            "assets": ["src/favicon.ico", "src/assets", "src/data"],
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/ngx-toastr/toastr.css",
+              "node_modules/font-awesome/css/font-awesome.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -56,10 +58,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "properRent:build:production"
+              "browserTarget": "RealEstateApk:build:production"
             },
             "development": {
-              "browserTarget": "properRent:build:development"
+              "browserTarget": "RealEstateApk:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -67,7 +69,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "properRent:build"
+            "browserTarget": "RealEstateApk:build"
           }
         },
         "test": {

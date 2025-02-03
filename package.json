@@ -1,5 +1,5 @@
 {
-  "name": "proper-rent",
+  "name": "real-estate-apk",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -18,14 +18,18 @@
     "@angular/platform-browser": "^16.2.0",
     "@angular/platform-browser-dynamic": "^16.2.0",
     "@angular/router": "^16.2.0",
-    "bootstrap": "^4.6.2",
+    "alertifyjs": "^1.14.0",
+    "bootstrap": "^4.4.1",
+    "font-awesome": "^4.7.0",
+    "ngx-bootstrap": "^18.0.2",
+    "ngx-toastr": "^19.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^16.2.16",
-    "@angular/cli": "^16.2.16",
+    "@angular-devkit/build-angular": "^16.2.14",
+    "@angular/cli": "^16.2.14",
     "@angular/compiler-cli": "^16.2.0",
     "@types/jasmine": "~4.3.0",
     "jasmine-core": "~4.6.0",
