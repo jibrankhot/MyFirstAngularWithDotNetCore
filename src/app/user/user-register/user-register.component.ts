@@ -9,6 +9,7 @@ import { ToastrService } from 'ngx-toastr';
 import { User } from 'src/app/interfaces/user';
 import { UserServiceService } from 'src/app/Services/user-service.service';
 import { AlertyfyToastService } from 'src/app/Services/alertyfy-toast.service';
+import { Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-register',
@@ -23,7 +24,8 @@ export class UserRegisterComponent implements OnInit {
     private toastr: ToastrService,
     private formBuilder: FormBuilder,
     private userService: UserServiceService,
-    private alertyfy: AlertyfyToastService
+    private alertyfy: AlertyfyToastService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -50,20 +52,17 @@ export class UserRegisterComponent implements OnInit {
 
   onsubmit() {
     if (this.registerationForm.valid) {
-      console.log(this.registerationForm.value);
-
       this.userService.addUser(this.userData());
-
-      //old toast code
-      // this.toastr.success('Form Was Submitted', 'Success');
       this.alertyfy.success('Form Was Submitted');
+
       setTimeout(() => {
         this.registerationForm.reset();
+        setTimeout(() => {
+          this.router.navigate(['user/login']);
+        }, 500);
       }, 500);
     } else {
       this.alertyfy.error('Incorrect UserName or Password');
-      //old toast code
-      // this.toastr.error('Incorrect UserName or Password', 'Error');
     }
   }
 
