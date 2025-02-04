@@ -103,8 +103,6 @@ export class AddpropertyComponent implements OnInit {
         SellRent: ['1', Validators.required],
         PType: [null, Validators.required],
         Name: [null, Validators.required],
-        Price: [null, Validators.required],
-        BuiltArea: [null, Validators.required],
       }),
 
       PriceInfo: this.formBuilder.group({
@@ -240,7 +238,11 @@ export class AddpropertyComponent implements OnInit {
   // #endregion
   // #endregion
 
-  onSubmit() {}
+  onSubmit() {
+    console.log('Congrats.form submitted');
+    console.log('sellRent=' + this.AddPropertyForm.value.SellRent);
+    console.log(this.AddPropertyForm);
+  }
 
   selectTab(tabId: number, IsCurrentTabValid: boolean) {
     this.nextClicked = true;
