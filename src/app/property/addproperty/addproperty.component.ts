@@ -10,11 +10,21 @@ import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { ToastrService } from 'ngx-toastr';
 import { PropertyInterface } from 'src/app/interfaces/property-interface';
 import { AlertyfyToastService } from 'src/app/Services/alertyfy-toast.service';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-addproperty',
   templateUrl: './addproperty.component.html',
   styleUrls: ['./addproperty.component.css'],
+  animations: [
+    trigger('tabChange', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('0.5s', style({ opacity: 1 })),
+      ]),
+      transition(':leave', [animate('0.5s', style({ opacity: 0 }))]),
+    ]),
+  ],
 })
 export class AddpropertyComponent implements OnInit {
   // @ViewChild('Form') addPropertyComponent: NgForm;
@@ -103,19 +113,22 @@ export class AddpropertyComponent implements OnInit {
         SellRent: ['1', Validators.required],
         PType: [null, Validators.required],
         Name: [null, Validators.required],
+        BHK: [null],
+        FType: [null],
+        City: [null, Validators.required],
       }),
 
       PriceInfo: this.formBuilder.group({
         Price: [null, Validators.required],
-        BuiltArea: [null, Validators.required],
-        CarpetArea: [null],
         Security: [null],
         Maintenance: [null],
+        BuiltArea: [null, Validators.required],
+        CarpetArea: [null],
       }),
 
       AddressInfo: this.formBuilder.group({
-        FloorNo: [null],
-        TotalFloor: [null],
+        FloorNo: [null, Validators.required],
+        TotalFloor: [null, Validators.required],
         Address: [null, Validators.required],
         LandMark: [null],
       }),
@@ -124,9 +137,12 @@ export class AddpropertyComponent implements OnInit {
         RTM: [null, Validators.required],
         PossessionOn: [null],
         AOP: [null],
-        Gated: [null],
         MainEntrance: [null],
         Description: [null],
+      }),
+
+      PhotoInfo: this.formBuilder.group({
+        Images: [null],
       }),
     });
   }
@@ -147,6 +163,10 @@ export class AddpropertyComponent implements OnInit {
 
   get OtherInfo() {
     return this.AddPropertyForm.controls['OtherInfo'] as FormGroup;
+  }
+
+  get PhotoInfo() {
+    return this.AddPropertyForm.controls['PhotoInfo'] as FormGroup;
   }
   // #endregion
 
@@ -244,8 +264,19 @@ export class AddpropertyComponent implements OnInit {
     console.log(this.AddPropertyForm);
   }
 
+  onReset() {
+    this.AddPropertyForm.reset();
+    setTimeout(() => {
+      this.alertyfy.success('Form was Resetted Successfully');
+    }, 200);
+    setTimeout(() => {
+      this.AddPropTabs.tabs[0].active = true;
+    }, 1500);
+  }
+
   selectTab(tabId: number, IsCurrentTabValid: boolean) {
     this.nextClicked = true;
+    console.log(this.AddressInfo);
     if (IsCurrentTabValid) {
       if (this.AddPropTabs?.tabs[tabId]) {
         this.AddPropTabs.tabs[tabId].active = true;

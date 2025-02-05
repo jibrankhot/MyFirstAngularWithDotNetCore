@@ -23,7 +23,11 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "node_modules/ngx-toastr/toastr.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
-              "src/styles.css"
+              "node_modules/alertifyjs/build/css/alertify.min.css",
+              "node_modules/alertifyjs/build/css/themes/bootstrap.min.css",
+              "src/styles.css",
+              "src/assets/forms.css",
+              "src/assets/tabs.css"
             ],
             "scripts": []
           },
@@ -78,7 +82,11 @@
             "polyfills": ["zone.js", "zone.js/testing"],
             "tsConfig": "tsconfig.spec.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/styles.css"],
+            "styles": [
+              "src/styles.css",
+              "src/assets/forms.css",
+              "src/assets/tabs.css"
+            ],
             "scripts": []
           }
         }
