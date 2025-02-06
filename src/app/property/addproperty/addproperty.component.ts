@@ -113,7 +113,7 @@ export class AddpropertyComponent implements OnInit {
         SellRent: ['1', Validators.required],
         PType: [null, Validators.required],
         Name: [null, Validators.required],
-        BHK: [null],
+        BHK: [null, Validators.required],
         FType: [null],
         City: [null, Validators.required],
       }),
@@ -259,28 +259,38 @@ export class AddpropertyComponent implements OnInit {
   // #endregion
 
   onSubmit() {
-    console.log('Congrats.form submitted');
-    console.log('sellRent=' + this.AddPropertyForm.value.SellRent);
-    console.log(this.AddPropertyForm);
+    debugger;
+    if (this.AddPropertyForm.valid) {
+      console.log(this.AddPropertyForm);
+      this.alertyfy.success('The Form was Submitted Successfully');
+    } else {
+      this.alertyfy.success('The Form was Submitted Successfully');
+    }
   }
 
   onReset() {
-    this.AddPropertyForm.reset();
-    setTimeout(() => {
-      this.alertyfy.success('Form was Resetted Successfully');
-    }, 200);
-    setTimeout(() => {
-      this.AddPropTabs.tabs[0].active = true;
-    }, 1500);
+    if (window.confirm('The Current Form Will Lost All the Entered data ')) {
+      this.AddPropertyForm.reset();
+      setTimeout(() => {
+        this.alertyfy.success('Form was Resetted Successfully');
+      }, 1000);
+      setTimeout(() => {
+        this.AddPropTabs.tabs[0].active = true;
+      }, 1000);
+    } else {
+    }
   }
 
   selectTab(tabId: number, IsCurrentTabValid: boolean) {
     this.nextClicked = true;
-    console.log(this.AddressInfo);
+
     if (IsCurrentTabValid) {
       if (this.AddPropTabs?.tabs[tabId]) {
         this.AddPropTabs.tabs[tabId].active = true;
       }
-    }
+    } else
+      this.alertyfy.error(
+        'Please Fill the Data Before Leaving The Current Tab'
+      );
   }
 }

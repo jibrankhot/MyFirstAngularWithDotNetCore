@@ -10,7 +10,7 @@
             <tabset class="member-tabset" #AddPropTabs>
               <tab heading="Basic Info" formGroupName="BasicInfo">
                 <div class="form-group col-12">
-                  <p>I want to</p>
+                  <p>I want to <span class="text-danger">*</span></p>
                   <div
                     class="btn-group"
                     btnRadioGroup
@@ -36,7 +36,7 @@
                 </div>
 
                 <div class="form-group col-12">
-                  <p>BHK</p>
+                  <p>BHK <span class="text-danger">*</span></p>
                   <div
                     class="btn-group"
                     btnRadioGroup
@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="form-group col-12">
-                  <p>Property Type</p>
+                  <p>Property Type <span class="text-danger">*</span></p>
                   <div
                     class="btn-group"
                     btnRadioGroup
@@ -96,7 +96,10 @@
                 </div>
 
                 <div class="form-group col-12">
-                  <label>Name of Building/Society/Project</label>
+                  <label
+                    >Name of Building/Society/Project
+                    <span class="text-danger">*</span></label
+                  >
                   <input
                     type="text"
                     class="form-control"
@@ -140,7 +143,12 @@
 
               <tab heading="Pricing and Area" formGroupName="PriceInfo">
                 <div class="form-group col-12">
-                  <label>Price (in USD)</label>
+                  <label *ngIf="SellRent.value == 1"
+                    >Price (in Rupees) <span class="text-danger">*</span></label
+                  >
+                  <label *ngIf="SellRent.value == 2"
+                    >Rent (in Rupees) <span class="text-danger">*</span></label
+                  >
                   <input
                     type="text"
                     class="form-control"
@@ -157,8 +165,10 @@
                   </span>
                 </div>
 
-                <div class="form-group col-12">
-                  <label>Security (in USD)</label>
+                <div class="form-group col-12" *ngIf="SellRent.value == 2">
+                  <label
+                    >Security (in USD) <span class="text-danger">*</span></label
+                  >
                   <input
                     type="text"
                     class="form-control"
@@ -166,8 +176,11 @@
                   />
                 </div>
 
-                <div class="form-group col-12">
-                  <label>Maintenance (in USD)</label>
+                <div class="form-group col-12" *ngIf="SellRent.value == 2">
+                  <label
+                    >Maintenance (in USD)
+                    <span class="text-danger">*</span></label
+                  >
                   <input
                     type="text"
                     class="form-control"
@@ -176,7 +189,10 @@
                 </div>
 
                 <div class="form-group col-12">
-                  <label>Built Area (in Sqr Feet)</label>
+                  <label
+                    >Built Area (in Sqr Feet)
+                    <span class="text-danger">*</span></label
+                  >
                   <input
                     type="text"
                     class="form-control"
@@ -223,7 +239,7 @@
 
               <tab heading="Address" formGroupName="AddressInfo">
                 <div class="form-group col-12">
-                  <label>Floor</label>
+                  <label>Floor <span class="text-danger">*</span></label>
                   <input
                     type="text"
                     class="form-control"
@@ -240,7 +256,7 @@
                 </div>
 
                 <div class="form-group col-12">
-                  <label>Total Floor</label>
+                  <label>Total Floor <span class="text-danger">*</span></label>
                   <input
                     type="text"
                     class="form-control"
@@ -257,7 +273,7 @@
                 </div>
 
                 <div class="form-group col-12">
-                  <label>Address</label>
+                  <label>Address <span class="text-danger">*</span></label>
                   <input
                     type="text"
                     class="form-control"
@@ -303,7 +319,7 @@
 
               <tab heading="Other Details" formGroupName="OtherInfo">
                 <div class="form-group col-12">
-                  <p>Ready to Move</p>
+                  <p>Ready to Move <span class="text-danger">*</span></p>
                   <div class="btn-group" btnRadioGroup>
                     <label
                       class="btn btn-outline-primary mr-2"
@@ -325,7 +341,9 @@
                 </div>
 
                 <div class="form-group col-3">
-                  <label>Possession Date</label>
+                  <label
+                    >Possession Date <span class="text-danger">*</span></label
+                  >
                   <input
                     type="text"
                     class="form-control"
@@ -334,6 +352,7 @@
                       containerClass: 'theme-dark-blue',
                       dateInputFormat: 'DD-MM-YYYY'
                     }"
+                    formControlName="PossessionOn"
                   />
                 </div>
 
@@ -385,11 +404,7 @@
                   >
                     Back
                   </button>
-                  <button
-                    type="submit"
-                    class="btn btn-primary btn-block"
-                    (click)="onSubmit()"
-                  >
+                  <button type="submit" class="btn btn-primary btn-block">
                     Save
                   </button>
                   <button
