@@ -319,48 +319,94 @@
 
               <tab heading="Other Details" formGroupName="OtherInfo">
                 <div class="form-group col-12">
-                  <p>Ready to Move <span class="text-danger">*</span></p>
-                  <div class="btn-group" btnRadioGroup>
+                  <p>Ready to Move</p>
+                  <div class="btn-group" btnRadioGroup formControlName="RTM">
                     <label
                       class="btn btn-outline-primary mr-2"
                       btnRadio="1"
                       tabindex="0"
                       role="button"
                       name="RTM"
-                      >Yes</label
-                    >
+                      >Yes
+                    </label>
                     <label
                       class="btn btn-outline-primary"
                       btnRadio="2"
                       tabindex="0"
                       role="button"
                       name="RTM"
-                      >No</label
-                    >
+                      >No
+                    </label>
+                  </div>
+                  <div class="error-block" *ngIf="RTM.invalid && nextClicked">
+                    Please select ready to move
                   </div>
                 </div>
 
-                <div class="form-group col-3">
-                  <label
-                    >Possession Date <span class="text-danger">*</span></label
-                  >
+                <div *ngIf="RTM.value == 2" class="form-group col-6">
+                  <label>Possession/Avaialble From</label>
                   <input
                     type="text"
                     class="form-control"
+                    formControlName="PossessionOn"
                     bsDatepicker
                     [bsConfig]="{
                       containerClass: 'theme-dark-blue',
                       dateInputFormat: 'DD-MM-YYYY'
                     }"
-                    formControlName="PossessionOn"
+                  />
+                </div>
+
+                <div *ngIf="RTM.value == 1" class="form-group col-3">
+                  <label>Age of Property</label>
+                  <input
+                    type="text"
+                    formControlName="AOP"
+                    class="form-control"
                   />
                 </div>
 
                 <div class="form-group col-12">
-                  <label>How Old is Property</label>
-                  <input type="text" class="form-control" />
+                  <p>Main Entrance</p>
+                  <div
+                    class="btn-group"
+                    btnRadioGroup
+                    formControlName="MainEntrance"
+                  >
+                    <label
+                      class="btn btn-outline-primary mr-1"
+                      btnRadio="1"
+                      tabindex="0"
+                      role="button"
+                      name="Entrance"
+                      >East</label
+                    >
+                    <label
+                      class="btn btn-outline-primary mr-1"
+                      btnRadio="2"
+                      tabindex="0"
+                      role="button"
+                      name="Entrance"
+                      >West</label
+                    >
+                    <label
+                      class="btn btn-outline-primary mr-1"
+                      btnRadio="3"
+                      tabindex="0"
+                      role="button"
+                      name="Entrance"
+                      >South</label
+                    >
+                    <label
+                      class="btn btn-outline-primary mr-1"
+                      btnRadio="4"
+                      tabindex="0"
+                      role="button"
+                      name="Entrance"
+                      >North</label
+                    >
+                  </div>
                 </div>
-
                 <div class="form-group col-12">
                   <label>Description</label>
                   <textarea
