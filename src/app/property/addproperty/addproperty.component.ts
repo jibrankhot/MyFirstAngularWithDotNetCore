@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 import { PropertyInterface } from 'src/app/interfaces/property-interface';
 import { AlertyfyToastService } from 'src/app/Services/alertyfy-toast.service';
 import { trigger, transition, style, animate } from '@angular/animations';
+import { Router } from '@angular/router';
+import { HousingService } from 'src/app/Services/housing.service';
 
 @Component({
   selector: 'app-addproperty',
@@ -101,8 +103,10 @@ export class AddpropertyComponent implements OnInit {
   constructor(
     private toastr: ToastrService,
     private alertyfy: AlertyfyToastService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private housingService: HousingService
+  ) { }
   ngOnInit(): void {
     this.createAddPropertyForm();
   }
@@ -258,13 +262,43 @@ export class AddpropertyComponent implements OnInit {
   // #endregion
   // #endregion
 
+  allTabsValid(): boolean {
+    if (this.BasicInfo.invalid) {
+      this.AddPropTabs.tabs[0].active = true;
+      return false;
+    }
+
+    if (this.PriceInfo.invalid) {
+      this.AddPropTabs.tabs[1].active = true;
+      return false;
+    }
+
+    if (this.AddressInfo.invalid) {
+      this.AddPropTabs.tabs[2].active = true;
+      return false;
+    }
+
+    if (this.OtherInfo.invalid) {
+      this.AddPropTabs.tabs[3].active = true;
+      return false;
+    }
+    return true;
+  }
   onSubmit() {
-    debugger;
     if (this.AddPropertyForm.valid) {
       console.log(this.AddPropertyForm);
       this.alertyfy.success('The Form was Submitted Successfully');
-    } else {
-      this.alertyfy.success('The Form was Submitted Successfully');
+      this.nextClicked = true;
+      if (this.allTabsValid()) {
+        this.mapProperty();
+        this.housingService.addProperty(this.property);
+
+        if (this.SellRent.value === '2') {
+          this.router.navigate(['/rent-property']);
+        } else {
+          this.router.navigate(['/']);
+        }
+      }
     }
   }
 
