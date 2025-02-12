@@ -42,7 +42,7 @@ export class AddpropertyComponent implements OnInit {
 
   //this will map the fields for save function
   mapProperty(): void {
-    debugger;
+    this.property = {};
     this.property.SellRent = +this.SellRent.value;
     this.property.BHK = this.BHK.value;
     this.property.PType = this.PType.value;
@@ -91,6 +91,7 @@ export class AddpropertyComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.createAddPropertyForm();
+
   }
 
   createAddPropertyForm() {
