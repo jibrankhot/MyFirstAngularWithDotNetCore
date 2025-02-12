@@ -1,43 +1,10 @@
-// import { Injectable } from '@angular/core';
-// import { HttpClient } from '@angular/common/http';
-// import { Observable, map } from 'rxjs';
-// import { BasePropertyInterface } from '../interfaces/property-Baseinterface';
-// import { PropertyInterface } from '../interfaces/property-interface';
-
-// @Injectable({
-//   providedIn: 'root',
-// })
-// export class HousingService {
-//   constructor(private http: HttpClient) {}
-
-//   getAllProperties(Purchaseable: number): Observable<BasePropertyInterface[]> {
-//     return this.http.get<PropertyInterface>('data/properties.json').pipe(
-//       map((data) => {
-//         const propertiesArray: Array<PropertyInterface> = [];
-//         for (const id in data) {
-//           if (
-//             data.hasOwnProperty(id) &&
-//             +data[id].Purchaseable === Purchaseable
-//           ) {
-//             propertiesArray.push(data[id]);
-//           }
-//         }
-//         return propertiesArray;
-//       }),
-//       return this.http.get<[PropertyInterface[]]>('data/properties.json');
-//     );
-
-//   }
-//   addProperty(property: PropertyInterface) {
-//     localStorage.setItem('newProp', JSON.stringify(property));
-//   }
-// }
-
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
-import { BasePropertyInterface } from '../interfaces/property-Baseinterface';
-import { PropertyInterface } from '../interfaces/property-interface';
+import { map } from 'rxjs/operators';
+import { IPropertyBase } from '../interfaces/ipropertybase';
+import { Observable } from 'rxjs';
+import { IProperty } from '../interfaces/iproperty';
+import { Property } from '../interfaces/Property ';
 
 @Injectable({
   providedIn: 'root',
@@ -45,17 +12,21 @@ import { PropertyInterface } from '../interfaces/property-interface';
 export class HousingService {
   constructor(private http: HttpClient) {}
 
-  getAllProperties(Purchaseable: number): Observable<BasePropertyInterface[]> {
-    return this.http
-      .get<PropertyInterface[]>('data/properties.json')
-      .pipe(
-        map((data) =>
-          data.filter((property) => +property.Purchaseable === Purchaseable)
-        )
-      );
-  }
+  getAllProperties(SellRent: number): Observable<IPropertyBase[]> {
+    return this.http.get('data/properties.json').pipe(
+      map((data) => {
+        const propertiesArray: Array<IPropertyBase> = [];
 
-  addProperty(property: PropertyInterface) {
+        for (const id in data) {
+          if (data.hasOwnProperty(id) && data[id].SellRent === SellRent) {
+            propertiesArray.push(data[id]);
+          }
+        }
+        return propertiesArray;
+      })
+    );
+  }
+  addProperty(property: Property) {
     localStorage.setItem('newProp', JSON.stringify(property));
   }
 }

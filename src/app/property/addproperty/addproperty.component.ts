@@ -8,11 +8,12 @@ import {
 } from '@angular/forms';
 import { TabsetComponent } from 'ngx-bootstrap/tabs';
 import { ToastrService } from 'ngx-toastr';
-import { PropertyInterface } from 'src/app/interfaces/property-interface';
+import { Property } from 'src/app/interfaces/Property ';
 import { AlertyfyToastService } from 'src/app/Services/alertyfy-toast.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Router } from '@angular/router';
 import { HousingService } from 'src/app/Services/housing.service';
+import { IPropertyBase } from 'src/app/interfaces/ipropertybase';
 
 @Component({
   selector: 'app-addproperty',
@@ -29,84 +30,65 @@ import { HousingService } from 'src/app/Services/housing.service';
   ],
 })
 export class AddpropertyComponent implements OnInit {
-  // @ViewChild('Form') addPropertyComponent: NgForm;
   @ViewChild('AddPropTabs') AddPropTabs: TabsetComponent;
   AddPropertyForm: FormGroup;
-
+  nextClicked: boolean;
   //WILL Come for MasterTable/Database
   propertyTypes: Array<string> = ['House', 'Appartment', 'Duplex'];
   furnishTypes: Array<string> = ['Fully', 'Semi', 'Unfurnished'];
-  nextClicked: boolean;
   cityList: any[];
-
   datePipe: any;
   property: any;
 
+  //this will map the fields for save function
   mapProperty(): void {
-    // this.propertyView.id = this.housingService.newPropID();
-    this.propertyView.sellRent = +this.SellRent.value;
-    this.propertyView.bhk = this.BHK.value;
-    this.propertyView.propertyTypeId = this.PType.value;
-    this.propertyView.name = this.Name.value;
-    this.propertyView.CityId = this.City.value;
-    this.propertyView.furnishingTypeId = this.FType.value;
-    this.propertyView.price = this.Price.value;
-    this.propertyView.security = this.Security.value;
-    this.propertyView.maintenance = this.Maintenance.value;
-    this.propertyView.BuiltArea = this.BuiltArea.value;
-    this.propertyView.carpetArea = this.CarpetArea.value;
-    this.propertyView.floorNo = this.FloorNo.value;
-    this.propertyView.totalFloors = this.TotalFloor.value;
-    this.propertyView.address = this.Address.value;
-    this.propertyView.address2 = this.LandMark.value;
-    this.propertyView.readyToMove = this.RTM.value;
-    this.propertyView.gated = this.Gated.value;
-    this.propertyView.mainEntrance = this.MainEntrance.value;
-    this.propertyView.estPossessionOn = this.datePipe.transform(
-      this.PossessionOn.value,
-      'MM/dd/yyyy'
-    );
-    this.property.description = this.Description.value;
+    debugger;
+    this.property.SellRent = +this.SellRent.value;
+    this.property.BHK = this.BHK.value;
+    this.property.PType = this.PType.value;
+    this.property.Name = this.Name.value;
+    this.property.City = this.City.value;
+    this.property.FType = this.FType.value;
+    this.property.Price = this.Price.value;
+    this.property.Security = this.Security.value;
+    this.property.Maintenance = this.Maintenance.value;
+    this.property.BuiltArea = this.BuiltArea.value;
+    this.property.CarpetArea = this.CarpetArea.value;
+    this.property.FloorNo = this.FloorNo.value;
+    this.property.TotalFloor = this.TotalFloor.value;
+    this.property.Address = this.Address.value;
+    this.property.Address2 = this.LandMark.value;
+    this.property.RTM = this.RTM.value;
+    this.property.AOP = this.AOP.value;
+    this.property.Gated = this.Gated.value;
+    this.property.MainEntrance = this.MainEntrance.value;
+    this.property.Possession = this.PossessionOn.value;
+    this.property.Description = this.Description.value;
+    this.property.PostedOn = new Date().toString();
   }
-  propertyView: PropertyInterface = {
-    id: null,
+  propertyView: Property = {
+    Id: null,
     Name: '',
-    Image: '/assets/house2.jpeg',
-    Description: null,
     Price: null,
-    Purchaseable: null,
+    SellRent: null,
     PType: null,
     FType: null,
     BHK: null,
     BuiltArea: null,
     City: null,
-    readyToMove: null,
-    sellRent: 0,
-    bhk: null,
-    propertyTypeId: null,
-    name: null,
-    CityId: null,
-    furnishingTypeId: null,
-    price: null,
-    security: null,
-    maintenance: null,
-    carpetArea: null,
-    floorNo: null,
-    totalFloors: null,
-    address: null,
-    address2: null,
-    gated: null,
-    mainEntrance: null,
-    estPossessionOn: null,
+    RTM: null,
+    Address: '',
+    PostedOn: '',
+    PostedBy: 0,
+    Image: 'assets/house6.jpeg',
   };
-
   constructor(
     private toastr: ToastrService,
     private alertyfy: AlertyfyToastService,
     private formBuilder: FormBuilder,
     private router: Router,
     private housingService: HousingService
-  ) { }
+  ) {}
   ngOnInit(): void {
     this.createAddPropertyForm();
   }
@@ -285,10 +267,10 @@ export class AddpropertyComponent implements OnInit {
     return true;
   }
   onSubmit() {
+    this.nextClicked = true;
     if (this.AddPropertyForm.valid) {
       console.log(this.AddPropertyForm);
       this.alertyfy.success('The Form was Submitted Successfully');
-      this.nextClicked = true;
       if (this.allTabsValid()) {
         this.mapProperty();
         this.housingService.addProperty(this.property);
