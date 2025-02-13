@@ -13,6 +13,7 @@ const routes: Routes = [
   },
   { path: 'home', component: PropertyListComponent },
   { path: 'rent-property', component: PropertyListComponent },
+  { path: 'Buy-property', component: PropertyListComponent },
   { path: 'property-detail/:Id', component: PropertyDetailComponent },
   { path: 'user/login', component: UserLoginComponent },
   { path: 'user/register', component: UserRegisterComponent },

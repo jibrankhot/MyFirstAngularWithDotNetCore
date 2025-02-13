@@ -38,11 +38,11 @@ export class AddpropertyComponent implements OnInit {
   furnishTypes: Array<string> = ['Fully', 'Semi', 'Unfurnished'];
   cityList: any[];
   datePipe: any;
-  property: any;
+  property: any = {};
 
   //this will map the fields for save function
   mapProperty(): void {
-    this.property = {};
+
     this.property.SellRent = +this.SellRent.value;
     this.property.BHK = this.BHK.value;
     this.property.PType = this.PType.value;
@@ -60,7 +60,9 @@ export class AddpropertyComponent implements OnInit {
     this.property.Address2 = this.LandMark.value;
     this.property.RTM = this.RTM.value;
     this.property.AOP = this.AOP.value;
-    this.property.Gated = this.Gated.value;
+    if (this.property.Image == null) {
+      this.property.Image = 'assets/house4.jpeg'
+    }
     this.property.MainEntrance = this.MainEntrance.value;
     this.property.Possession = this.PossessionOn.value;
     this.property.Description = this.Description.value;
@@ -88,7 +90,7 @@ export class AddpropertyComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router: Router,
     private housingService: HousingService
-  ) {}
+  ) { }
   ngOnInit(): void {
     this.createAddPropertyForm();
 
@@ -129,7 +131,7 @@ export class AddpropertyComponent implements OnInit {
       }),
 
       PhotoInfo: this.formBuilder.group({
-        Images: [null],
+        Image: [null],
       }),
     });
   }
@@ -268,19 +270,18 @@ export class AddpropertyComponent implements OnInit {
     return true;
   }
   onSubmit() {
-    this.nextClicked = true;
-    if (this.AddPropertyForm.valid) {
-      console.log(this.AddPropertyForm);
-      this.alertyfy.success('The Form was Submitted Successfully');
-      if (this.allTabsValid()) {
-        this.mapProperty();
-        this.housingService.addProperty(this.property);
 
-        if (this.SellRent.value === '2') {
-          this.router.navigate(['/rent-property']);
-        } else {
-          this.router.navigate(['/']);
-        }
+    this.nextClicked = true;
+    if (this.allTabsValid()) {
+      this.mapProperty();
+      this.housingService.addProperty(this.property);
+      this.alertyfy.success('Congrats, your property listed successfully on our website');
+      console.log(this.AddPropertyForm);
+
+      if (this.SellRent.value === '2') {
+        this.router.navigate(['/rent-property']);
+      } else {
+        this.router.navigate(['/']);
       }
     }
   }
@@ -305,9 +306,12 @@ export class AddpropertyComponent implements OnInit {
       if (this.AddPropTabs?.tabs[tabId]) {
         this.AddPropTabs.tabs[tabId].active = true;
       }
-    } else
+    } else {
       this.alertyfy.error(
         'Please Fill the Data Before Leaving The Current Tab'
       );
+      this.allTabsValid()
+    }
+
   }
 }
