@@ -1,29 +1,36 @@
 {
   "$schema": "http://json.schemastore.org/launchsettings.json",
+
+  // IIS-specific settings for development
   "iisSettings": {
-    "windowsAuthentication": false,
-    "anonymousAuthentication": true,
+    "windowsAuthentication": false, // Disables Windows Authentication
+    "anonymousAuthentication": true, // Enables Anonymous Authentication
     "iisExpress": {
-      "applicationUrl": "http://localhost:59648",
-      "sslPort": 0
+      "applicationUrl": "http://localhost:59648", // Default URL for IIS Express
+      "sslPort": 0 // SSL disabled (set to 0)
     }
   },
+
+  // Defines different launch profiles for the project
   "profiles": {
+    // Profile used when launching via IIS Express
     "IIS Express": {
-      "commandName": "IISExpress",
-      "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "commandName": "IISExpress", // Indicates IIS Express is used
+      "launchBrowser": true, // Launch browser on run
+      "launchUrl": "weatherforecast", // Endpoint to hit after launch
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development" // Set environment to Development
       }
     },
+
+    // Profile used when launching the WebAPI project directly (e.g., via CLI or Kestrel)
     "WebAPI": {
-      "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "api/city",
-      "applicationUrl": "http://localhost:5000",
+      "commandName": "Project", // Indicates the project is run directly
+      "launchBrowser": true, // Launch browser on run
+      "launchUrl": "api/city/cities", // Default endpoint to open in browser
+      "applicationUrl": "http://localhost:5000", // Application will run on this URL
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development" // Set environment to Development
       }
     }
   }

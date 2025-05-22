@@ -3,14 +3,18 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { IPropertyBase } from '../interfaces/ipropertybase';
 import { Observable } from 'rxjs';
-import { IProperty } from '../interfaces/iproperty';
 import { Property } from '../interfaces/Property ';
+import { City } from '../interfaces/city';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HousingService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
+
+  getAllCities(): Observable<City[]> {
+    return this.http.get<City[]>('http://localhost:5000/api/city/cities');
+  }
 
   getAllProperties(SellRent: number): Observable<IPropertyBase[]> {
     return this.http.get('data/properties.json').pipe(

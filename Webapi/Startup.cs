@@ -16,8 +16,9 @@ using WebAPI.Services;
 
 namespace WebAPI
 {
-    public class Startup
-    {
+  public class Startup
+  {
+    // Constructor to initialize configuration settings from appsettings.json or other sources
     public Startup(IConfiguration configuration)
     {
       Configuration = configuration;
@@ -25,60 +26,77 @@ namespace WebAPI
 
     public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
+    // Method to register application services and middleware components
+    public void ConfigureServices(IServiceCollection services)
+    {
+      // Retrieve the database connection string from configuration
       var connectionString = Configuration.GetConnectionString("Default");
 
-            
-            services.AddDbContext<DataContext>(options => 
-            options.UseSqlServer(connectionString));
-            services.AddControllers().AddNewtonsoftJson();
-            services.AddCors();
-            services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
-            services.AddScoped<IPhotoService, PhotoService>();
+      // Register the DbContext with SQL Server as the database provider
+      services.AddDbContext<DataContext>(options =>
+          options.UseSqlServer(connectionString));
 
-            var secretKey = Configuration.GetSection("AppSettings:Key").Value;
-            var key = new SymmetricSecurityKey(Encoding.UTF8
-                .GetBytes(secretKey));
+      // Add support for controllers and Newtonsoft.Json (for JSON patching and advanced serialization)
+      services.AddControllers().AddNewtonsoftJson();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            // services.AddAuthentication("Bearer")
-                .AddJwtBearer(opt => {
-                    opt.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidateIssuerSigningKey = true,
-                        ValidateIssuer = false,
-                        ValidateAudience = false,
-                        IssuerSigningKey = key                        
-                    };
-                });
-        }
+      // Enable Cross-Origin Resource Sharing (CORS)
+      services.AddCors();
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-        {
-            app.ConfigureExceptionHandler(env);            
+      // Register AutoMapper and map all profiles from the specified assembly
+      services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
 
-            // app.ConfigureBuiltinExceptionHandler;         
-            
-            app.UseRouting();
-            app.UseHsts();
-            app.UseHttpsRedirection();
+      // Register custom application services for dependency injection
+      services.AddScoped<IUnitOfWork, UnitOfWork>();
+      services.AddScoped<IPhotoService, PhotoService>();
 
-            app.UseCors(m => m.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+      // Read the secret key for JWT token validation
+      var secretKey = Configuration.GetSection("AppSettings:Key").Value;
+      var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
-            app.UseAuthentication();
-            app.UseAuthorization();
-
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-
-            app.UseEndpoints(endpoints =>
+      // Configure JWT-based authentication
+      services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+          .AddJwtBearer(opt => {
+            opt.TokenValidationParameters = new TokenValidationParameters
             {
-                endpoints.MapControllers();
-            });
-        }
+              ValidateIssuerSigningKey = true,  // Ensure the token has a valid signing key
+              ValidateIssuer = false,           // Skip issuer validation
+              ValidateAudience = false,         // Skip audience validation
+              IssuerSigningKey = key            // Provide the key for signature validation
+            };
+          });
     }
+
+    // Method to define the HTTP request pipeline
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+      // Use custom exception handling middleware (defined in Extensions)
+      app.ConfigureExceptionHandler(env);
+
+      // Configure the middleware to route requests
+      app.UseRouting();
+
+      // Enable HSTS (HTTP Strict Transport Security)
+      app.UseHsts();
+
+      // Redirect HTTP requests to HTTPS
+      app.UseHttpsRedirection();
+
+      // Enable CORS to allow requests from any origin
+      app.UseCors(m => m.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
+      // Enable authentication and authorization middlewares
+      app.UseAuthentication();
+      app.UseAuthorization();
+
+      // Enable serving default files (e.g., index.html) and static content (e.g., JS, CSS)
+      app.UseDefaultFiles();
+      app.UseStaticFiles();
+
+      // Configure endpoints for controller-based routing
+      app.UseEndpoints(endpoints =>
+      {
+        endpoints.MapControllers();
+      });
+    }
+  }
 }

@@ -56,7 +56,12 @@
 
                 <div class="form-group col-12">
                   <label>City</label>
-                  <input type="text" class="form-control" [(ngModel)]="propertyView.City" formControlName="City" />
+                  <select class="form-control" [(ngModel)]="propertyView.City" formControlName="City">
+                    <option value="">--Select City--</option>
+                    <option *ngFor="let city of cityList" value={{city.name}}>
+                      {{city.name}}
+                    </option>
+                  </select>
                   <span *ngIf="!City.valid && City.touched" class="error-block">
                     <span *ngIf="City.errors.required">Please provide City</span>
                   </span>

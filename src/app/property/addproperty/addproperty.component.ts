@@ -13,7 +13,6 @@ import { AlertyfyToastService } from 'src/app/Services/alertyfy-toast.service';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { Router } from '@angular/router';
 import { HousingService } from 'src/app/Services/housing.service';
-import { IPropertyBase } from 'src/app/interfaces/ipropertybase';
 
 @Component({
   selector: 'app-addproperty',
@@ -77,7 +76,7 @@ export class AddpropertyComponent implements OnInit {
     FType: null,
     BHK: null,
     BuiltArea: null,
-    City: null,
+    City: '',
     RTM: null,
     Address: '',
     PostedOn: '',
@@ -93,7 +92,7 @@ export class AddpropertyComponent implements OnInit {
   ) { }
   ngOnInit(): void {
     this.createAddPropertyForm();
-
+    this.housingService.getAllCities().subscribe(c => { this.cityList = c })
   }
 
   createAddPropertyForm() {
