@@ -16,21 +16,27 @@ export class UserLoginComponent implements OnInit {
     private alertyfy: AlertyfyToastService,
     private authService: AuthService,
     private router: Router
-  ) {}
-  ngOnInit(): void {}
+  ) { }
+  ngOnInit(): void { }
 
   onlogin(loginForm: NgForm) {
-    const token = this.authService.authUser(loginForm.value);
-    if (token) {
-      localStorage.setItem('token', token.userName);
-      setTimeout(() => {
-        this.alertyfy.success('Success:Login was Successful');
-        loginForm.reset();
-        this.router.navigate(['home']);
-      }, 200);
-    } else {
-      this.alertyfy.error('error: Incorrect Username or Password ');
-    }
+    this.authService.authUser(loginForm.value).subscribe(response => {
+
+    });
+
+
+
+
+    // if (token) {
+    //   localStorage.setItem('token', token.userName);
+    //   setTimeout(() => {
+    //     this.alertyfy.success('Success:Login was Successful');
+    //     loginForm.reset();
+    //     this.router.navigate(['home']);
+    //   }, 200);
+    // } else {
+    //   this.alertyfy.error('error: Incorrect Username or Password ');
+    // }
   }
 
   BlankuserName() {
