@@ -30,7 +30,9 @@ namespace WebAPI
     public void ConfigureServices(IServiceCollection services)
     {
       // Retrieve the database connection string from configuration
-      var connectionString = Configuration.GetConnectionString("Default");
+      var builder = new SqlConnectionStringBuilder(Configuration.GetConnectionString("Default"));
+      builder.Password = Configuration.GetSection("DBPassword").Value;
+      var connectionString = builder.ConnectionString;
 
       // Register the DbContext with SQL Server as the database provider
       services.AddDbContext<DataContext>(options =>

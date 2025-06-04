@@ -31,7 +31,7 @@ namespace WebAPI.Controllers
             var user = await uow.UserRepository.Authenticate(loginReq.UserName, loginReq.Password);
 
             ApiError apiError = new ApiError();
-
+       
             if (user == null)
             {
                 apiError.ErrorCode=Unauthorized().StatusCode;
@@ -85,7 +85,7 @@ namespace WebAPI.Controllers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(1),
+                Expires = DateTime.UtcNow.AddMinutes(60),
                 SigningCredentials = signingCredentials
             };
 
@@ -93,6 +93,5 @@ namespace WebAPI.Controllers
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
-
     }
 }
