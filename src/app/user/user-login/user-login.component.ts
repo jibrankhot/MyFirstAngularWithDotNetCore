@@ -20,8 +20,9 @@ export class UserLoginComponent implements OnInit {
   ngOnInit(): void { }
 
   onlogin(loginForm: NgForm) {
+    console.log(loginForm.value)
     this.authService.authUser(loginForm.value).subscribe(response => {
-
+      console.log(response)
     });
 
 
